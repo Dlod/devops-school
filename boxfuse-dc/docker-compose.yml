@@ -1,0 +1,18 @@
+version: '3'
+services:
+  tomcat-service:
+    image: tomcat:9.0
+    volumes:
+      - data:/usr/local/tomcat/webapps
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "builder"
+
+  builder:
+    build: ./builder
+    volumes:
+      - data:/opt
+
+volumes:  
+  data:
