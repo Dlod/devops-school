@@ -5,5 +5,3 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
 	cd /root && git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git boxfuse && \
 	cd boxfuse && mvn package && \
 	mv /root/boxfuse/target/*.war /opt/hello.war 
-
-CMD ["sleep", "60"]
