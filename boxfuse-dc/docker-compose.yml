@@ -1,9 +1,10 @@
 version: '3'
 services:
   tomcat-service:
-    image: tomcat:alpine
+    #image: tomcat:alpine
+    build: ./prod
     volumes:
-      - data:/usr/local/tomcat/webapps
+      - data:/opt/tomcat/webapps/
     ports:
       - "8080:8080"
     depends_on:
