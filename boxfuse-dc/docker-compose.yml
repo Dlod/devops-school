@@ -1,7 +1,7 @@
 version: '3'
 services:
   tomcat-service:
-    image: tomcat:9.0
+    image: tomcat:alpine
     volumes:
       - data:/usr/local/tomcat/webapps
     ports:
