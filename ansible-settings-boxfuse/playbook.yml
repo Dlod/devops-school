@@ -1,0 +1,48 @@
+---
+- name: settings builder
+  hosts: builder
+  become: yes
+
+  tasks:
+  - name: apt update
+    apt:
+      pkg:
+      - unzip
+      - default-jdk
+      - git
+      - maven
+      update_cache: yes
+  - name: Git checkout
+    git:
+      repo: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
+      dest: /srv/boxfuse
+      version: master
+      update: yes
+  - name: build
+    shell:
+      cmd: mvn package
+      chdir: /srv/boxfuse
+  - name: Transfer file from ServerA to ServerB
+    fetch:
+      src: /srv/boxfuse/target/hello-1.0.war
+      dest: /root/
+      flat: yes
+
+- name: setting stand
+  hosts: stand
+  become: yes
+
+  tasks:
+  - name:
+    apt:
+      pkg:
+      - tomcat9
+      update_cache: yes
+  - name: Sync war
+    copy:
+      src: /root/hello-1.0.war
+      dest: /var/lib/tomcat9/webapps/hello.war
+  - name: tomcat is started
+    service:
+      name: tomcat9
+      state: restarted
