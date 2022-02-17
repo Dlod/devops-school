@@ -1,0 +1,13 @@
+---
+# - name:
+#   debug:
+#       var: ansible_python_interpreter
+- name: intall docker
+  apt:
+    pkg:
+    - docker.io
+    - python3-pip
+    update_cache: yes
+- name: install pip modules
+  pip:
+    name: docker-py 

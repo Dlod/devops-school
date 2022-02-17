@@ -1,0 +1,36 @@
+---
+- name: upload the site directory to the docker host
+  synchronize: src=./files/ dest=/root/tmp
+
+- name: Git checkout
+  git:
+    repo: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
+    dest: /srv/boxfuse
+    version: master
+    update: yes
+
+- name: build
+  shell:
+    cmd: mvn package
+    chdir: /srv/boxfuse
+
+- name:
+  synchronize:
+    src: /srv/boxfuse/target/hello-1.0.war 
+    dest: /root/tmp/prod
+  delegate_to: "{{ inventory_hostname }}"
+
+- name:
+  command: mv /root/tmp/prod/hello-1.0.war /root/tmp/prod/hello.war 
+
+- name: build docker image
+  docker_image:
+    name: dlod76/webapp
+    build:
+      path: /root/tmp/prod
+    source: build
+    force_absent: yes
+    state: present
+    push: yes
+    tag: v1
+

@@ -1,0 +1,7 @@
+---
+- name: preparing docker | start docker
+  docker_container:
+    name: webapp
+    image: dlod76/webapp:v1
+    published_ports: 
+    - "8080:8080"

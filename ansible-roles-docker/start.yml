@@ -1,0 +1,27 @@
+---
+- name: build and deploy boxfuse
+  hosts: all
+  remote_user: rozov
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - prepare_docker
+
+- name: build and deploy boxfuse
+  hosts: builder
+  remote_user: rozov
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - role: build
+
+- name: build and deploy boxfuse
+  hosts: deploy
+  remote_user: rozov
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - role: deploy

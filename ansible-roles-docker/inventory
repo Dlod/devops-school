@@ -1,0 +1,4 @@
+[builder]
+178.154.206.146 ansible_ssh_private_key_file=~/.ssh/id_rsa_devops_school
+[deploy]
+84.201.134.171 ansible_ssh_private_key_file=~/.ssh/id_rsa_devops_school
