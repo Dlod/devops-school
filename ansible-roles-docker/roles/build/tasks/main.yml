@@ -21,7 +21,10 @@
   delegate_to: "{{ inventory_hostname }}"
 
 - name:
-  command: mv /root/tmp/prod/hello-1.0.war /root/tmp/prod/hello.war 
+  copy: 
+    src: /root/tmp/prod/hello-1.0.war 
+    dest: /root/tmp/prod/hello.war 
+    remote_src: yes
 
 - name: build docker image
   docker_image:
