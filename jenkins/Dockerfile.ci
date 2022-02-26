@@ -1,0 +1,7 @@
+FROM openjdk:8u242-stretch
+ENV TZ=Europe/Moscow
+RUN apt-ge update&& apt-get install docker-ce git maven -y 
+    # && \
+	# cd /root && git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git boxfuse && \
+	# cd boxfuse && mvn package && \
+	# mv /root/boxfuse/target/*.war /opt/hello.war 
