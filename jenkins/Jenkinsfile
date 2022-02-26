@@ -7,12 +7,12 @@
 pipeline{
     agent none
     options { timestamps () }
-    // enviroment{
-
-    // }
-    // tools{
-
-    // }
+    enviroment{
+        docker_hub_auth = credentials("docker_pass")
+    }
+    parameters{
+        string(name: 'tag', defaultValue: 'v1', description: '')
+    }
     stages{
         stage('Build'){
             agent {
@@ -23,7 +23,10 @@ pipeline{
                 }
             }
             steps{
-                sh "pwd&&ls -al"
+                sh "docker build -t webapp jenkins/Dockerfile.ci"
+                sh "echo ${docker_hub_auth}|docker login --username dlod76 --password-stdin"
+                sh "docker tag webapp dlod76/webapp:${params.tag}"
+                sh "docker push dlod76/webapp:${params.tag}"
             }
         }
     }

@@ -1,4 +1,4 @@
 FROM ubuntu:20.04
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-	apt update&& apt install default-jdk git maven -y 
+	apt update&& apt install default-jdk git maven docker.io -y 
