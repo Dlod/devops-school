@@ -23,19 +23,21 @@ pipeline{
                 }
             }
             steps{
-                dir("${env.WORKSPACE}/jenkins"){
-                    git ('https://github.com/boxfuse/boxfuse-sample-java-war-hello.git', "boxfuse")
-                    dir('boxfuse'){
-                        sh "mvn package"
+                scrip{
+                    dir("${env.WORKSPACE}/jenkins"){
+                        git ('https://github.com/boxfuse/boxfuse-sample-java-war-hello.git', "boxfuse")
+                        dir('boxfuse'){
+                            sh "mvn package"
+                        }
+                        docker.withRegistry("https://index.docker.io/v1/", docker_hub_auth){
+                            webapp = docker.build("webapp:${params.tag}", "-f ${env.WORKSPACE}/jenkins/Dockerfile.ci")
+                            webapp.push(params.tag)
+                        }
+                        // sh "docker build -t webapp:${params.tag} -f ${env.WORKSPACE}/jenkins/Dockerfile.ci ."
+                        // sh "echo ${docker_hub_auth}|docker login --username dlod76 --password-stdin"
+                        // sh "docker tag webapp dlod76/webapp:${params.tag}"
+                        // sh "docker push dlod76/webapp:${params.tag}"
                     }
-                    docker.withRegistry("https://index.docker.io/v1/", docker_hub_auth){
-                        webapp = docker.build("webapp:${params.tag}", "-f ${env.WORKSPACE}/jenkins/Dockerfile.ci")
-                        webapp.push(params.tag)
-                    }
-                    // sh "docker build -t webapp:${params.tag} -f ${env.WORKSPACE}/jenkins/Dockerfile.ci ."
-                    // sh "echo ${docker_hub_auth}|docker login --username dlod76 --password-stdin"
-                    // sh "docker tag webapp dlod76/webapp:${params.tag}"
-                    // sh "docker push dlod76/webapp:${params.tag}"
                 }
             }
         }
