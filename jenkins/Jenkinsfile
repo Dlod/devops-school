@@ -19,11 +19,10 @@ pipeline{
                 dockerfile {
                     filename 'Dockerfile.ci'
                     dir 'jenkins'
-                    args '-v /tmp:/tmp'
                 }
             }
             steps{
-                sh "docker build -t webapp jenkins/Dockerfile.ci"
+                sh "docker build -t webapp ${env.WORKSPACE}/jenkins/Dockerfile.ci"
                 sh "echo ${docker_hub_auth}|docker login --username dlod76 --password-stdin"
                 sh "docker tag webapp dlod76/webapp:${params.tag}"
                 sh "docker push dlod76/webapp:${params.tag}"
