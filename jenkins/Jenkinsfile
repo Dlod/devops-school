@@ -7,9 +7,6 @@
 pipeline{
     agent none
     options { timestamps () }
-    environment{
-        docker_hub_auth = credentials("52b0db96-d581-4c99-b9df-3a105f72df67")
-    }
     parameters{
         string(name: 'tag', defaultValue: 'v1', description: '')
     }
@@ -27,17 +24,23 @@ pipeline{
                     dir("${env.WORKSPACE}/jenkins"){
                         checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'boxfuse']], userRemoteConfigs: [[url: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git']]])
                         dir('boxfuse'){
-                            sh "mvn package"
+                            sh "mvn package && mv ./target/*.war ../hello.war"
                         }
                         docker.withRegistry("https://index.docker.io/v1/", "52b0db96-d581-4c99-b9df-3a105f72df67"){
-                            def webapp = docker.build("webapp:${params.tag}", "-f ${env.WORKSPACE}/jenkins/Dockerfile.ci .")
-                            webapp.push(params.tag)
+                            def webapp = docker.build("dlod76/webapp:${params.tag}", "-f ${env.WORKSPACE}/jenkins/Dockerfile.ci .")
+                            webapp.push()
                         }
-                        // sh "docker build -t webapp:${params.tag} -f ${env.WORKSPACE}/jenkins/Dockerfile.ci ."
-                        // sh "echo ${docker_hub_auth}|docker login --username dlod76 --password-stdin"
-                        // sh "docker tag webapp dlod76/webapp:${params.tag}"
-                        // sh "docker push dlod76/webapp:${params.tag}"
                     }
+                }
+            }
+        }
+        stage('Deploy'){
+            agent{
+                label 'node1'
+            }
+            steps{
+                script{
+                    sh "docker run -rm -d -p 8080:8080 --name webapp dlod76/webapp:${params.tag}"
                 }
             }
         }
