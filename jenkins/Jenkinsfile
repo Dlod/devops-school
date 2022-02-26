@@ -22,7 +22,7 @@ pipeline{
                     args "-v /var/run/docker.sock:/var/run/docker.sock"
                 }
             }
-            steps{f
+            steps{
                 script{
                     dir("${env.WORKSPACE}/jenkins"){
                         git ('https://github.com/boxfuse/boxfuse-sample-java-war-hello.git', "boxfuse")
