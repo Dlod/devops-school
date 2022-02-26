@@ -1,6 +1,6 @@
 FROM openjdk:8u242-stretch
 ENV TZ=Europe/Moscow
-RUN apt-get update&& apt-get install docker-ce git maven -y 
+RUN apt-get update&& apt-get install docker.io git maven -y 
     # && \
 	# cd /root && git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git boxfuse && \
 	# cd boxfuse && mvn package && \
