@@ -24,7 +24,7 @@ pipeline{
             }
             steps{
                 sh "docker build -t webapp:${params.tag} -f ${env.WORKSPACE}/jenkins/Dockerfile.ci ${env.WORKSPACE}/jenkins"
-                sh "echo ${docker_hub_auth}|docker login --username dlod76 --password-stdin"
+                // sh "echo ${docker_hub_auth}|docker login --username dlod76 --password-stdin"
                 sh "docker tag webapp dlod76/webapp:${params.tag}"
                 sh "docker push dlod76/webapp:${params.tag}"
             }
