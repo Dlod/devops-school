@@ -8,7 +8,7 @@ pipeline{
     agent none
     options { timestamps () }
     environment{
-        docker_hub_auth = credentials("6e16c4ed-61e5-4431-a61f-cfd12ab5e91e")
+        docker_hub_auth = credentials("52b0db96-d581-4c99-b9df-3a105f72df67")
     }
     parameters{
         string(name: 'tag', defaultValue: 'v1', description: '')
@@ -23,10 +23,20 @@ pipeline{
                 }
             }
             steps{
-                sh "docker build -t webapp:${params.tag} -f ${env.WORKSPACE}/jenkins/Dockerfile.ci ${env.WORKSPACE}/jenkins"
-                // sh "echo ${docker_hub_auth}|docker login --username dlod76 --password-stdin"
-                sh "docker tag webapp dlod76/webapp:${params.tag}"
-                sh "docker push dlod76/webapp:${params.tag}"
+                dir("${env.WORKSPACE}/jenkins"){
+                    git ('https://github.com/boxfuse/boxfuse-sample-java-war-hello.git', "boxfuse")
+                    dir('boxfuse'){
+                        sh "mvn package"
+                    }
+                    docker.withRegistry("https://index.docker.io/v1/", docker_hub_auth){
+                        webapp = docker.build("webapp:${params.tag}", "-f ${env.WORKSPACE}/jenkins/Dockerfile.ci")
+                        webapp.push(params.tag)
+                    }
+                    // sh "docker build -t webapp:${params.tag} -f ${env.WORKSPACE}/jenkins/Dockerfile.ci ."
+                    // sh "echo ${docker_hub_auth}|docker login --username dlod76 --password-stdin"
+                    // sh "docker tag webapp dlod76/webapp:${params.tag}"
+                    // sh "docker push dlod76/webapp:${params.tag}"
+                }
             }
         }
     }
