@@ -29,7 +29,7 @@ pipeline{
                         dir('boxfuse'){
                             sh "mvn package"
                         }
-                        docker.withRegistry("https://index.docker.io/v1/", docker_hub_auth){
+                        docker.withRegistry("https://index.docker.io/v1/", "52b0db96-d581-4c99-b9df-3a105f72df67"){
                             def webapp = docker.build("webapp:${params.tag}", "-f ${env.WORKSPACE}/jenkins/Dockerfile.ci")
                             webapp.push(params.tag)
                         }
