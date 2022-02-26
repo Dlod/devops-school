@@ -22,15 +22,15 @@ pipeline{
                     args "-v /var/run/docker.sock:/var/run/docker.sock"
                 }
             }
-            steps{
-                scrip{
+            steps{f
+                script{
                     dir("${env.WORKSPACE}/jenkins"){
                         git ('https://github.com/boxfuse/boxfuse-sample-java-war-hello.git', "boxfuse")
                         dir('boxfuse'){
                             sh "mvn package"
                         }
                         docker.withRegistry("https://index.docker.io/v1/", docker_hub_auth){
-                            webapp = docker.build("webapp:${params.tag}", "-f ${env.WORKSPACE}/jenkins/Dockerfile.ci")
+                            def webapp = docker.build("webapp:${params.tag}", "-f ${env.WORKSPACE}/jenkins/Dockerfile.ci")
                             webapp.push(params.tag)
                         }
                         // sh "docker build -t webapp:${params.tag} -f ${env.WORKSPACE}/jenkins/Dockerfile.ci ."
