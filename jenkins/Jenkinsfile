@@ -8,7 +8,7 @@ pipeline{
     agent none
     options { timestamps () }
     environment{
-        docker_hub_auth = credentials("docker_pass")
+        docker_hub_auth = credentials("6e16c4ed-61e5-4431-a61f-cfd12ab5e91e")
     }
     parameters{
         string(name: 'tag', defaultValue: 'v1', description: '')
