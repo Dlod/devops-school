@@ -6,11 +6,10 @@ services:
       dockerfile: Dockerfile.build
     volumes:
       - data:/opt
-
   prod:
     build:
       context: .
-      dockerfile: Dockerfile.prod2
+      dockerfile: Dockerfile.prod
       args:
         db_user: devops12
         db_passwd: secret12
@@ -24,8 +23,6 @@ services:
     depends_on:
       - builder
       - db
-    networks:
-      - spring_net
   db:
     image: "mysql:5.7-oracle"
     volumes:
@@ -37,10 +34,6 @@ services:
       MYSQL_USER: devops12
       MYSQL_PASSWORD: secret12
       MYSQL_DATABASE: database
-    networks:
-      - spring_net
 volumes:
   dbdata:
   data:
-networks:
-  spring_net:

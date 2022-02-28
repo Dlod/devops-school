@@ -8,9 +8,9 @@ ARG db_name
 ARG db_conf=ROOT/Config.properties
 # copy artifacts
 WORKDIR /usr/local/tomcat/
-ADD Config.properties ROOT/
 # edit conf file
-RUN echo app42.paas.db.username = ${db_user} > ${db_conf} \
+RUN mkdir ROOT && \
+echo app42.paas.db.username = ${db_user} > ${db_conf} \
 && echo app42.paas.db.port = ${dp_port} >> ${db_conf} \
 && echo app42.paas.db.password = ${db_passwd} >> ${db_conf} \
 && echo app42.paas.db.ip = ${db_ip} >> ${db_conf} \
