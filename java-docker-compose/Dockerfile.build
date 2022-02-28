@@ -1,0 +1,7 @@
+FROM ubuntu:20.04
+ENV TZ=Europe/Moscow
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+	apt update&& apt install unzip openjdk-8-jdk git maven wget -y && \
+	cd /root && git clone https://github.com/shephertz/App42PaaS-Java-MySQL-Sample.git  jms && \
+	cd jms && mvn package && \
+	mv /root/jms/target/*.war /opt/jms.war 
