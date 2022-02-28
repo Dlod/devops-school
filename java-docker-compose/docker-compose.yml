@@ -1,28 +1,5 @@
-version: '3'
+version: '3.7'
 services:
-  tomcat-service:
-    build: 
-      context: ./
-      dockerfile: Dockerfile.prod
-    volumes:
-      - data:/opt/tomcat/webapps/
-      - ./Config.properties:/opt/tomcat/webapps/jms/Config.properties
-    ports:
-      - "8080:8080"
-    depends_on:
-      - "builder"
-      - "mysql_db"
-
-  mysql_db:
-    image: "mysql:8.0-oracle"
-    restart: always
-    ports:
-      - 3306:3306    
-    environment:
-      MYSQL_DATABASE: dd
-      MYSQL_USER: acp4pogynvaeidfj
-      MYSQL_PASSWORD: jc31d2qyy7h9jv5jn1u9uosjksxzaizw
-
   builder:
     build:
       context: ./
@@ -30,5 +7,40 @@ services:
     volumes:
       - data:/opt
 
-volumes:  
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod2
+      args:
+        db_user: devops12
+        db_passwd: secret12
+        dp_port: 3306
+        db_ip: db
+        db_name: database
+    ports:
+      - "8080:8080"
+    volumes:
+      - data:/usr/local/tomcat/webapps
+    depends_on:
+      - builder
+      - db
+    networks:
+      - spring_net
+  db:
+    image: "mysql:5.7-oracle"
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: devops12
+      MYSQL_PASSWORD: secret12
+      MYSQL_DATABASE: database
+    networks:
+      - spring_net
+volumes:
+  dbdata:
   data:
+networks:
+  spring_net:
