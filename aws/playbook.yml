@@ -5,8 +5,7 @@
   gather_facts: false
   
   vars:
-    aws_access_key: AKIAYH3IOQEKCLAJMD64
-    aws_secret_key: 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
+
     key_name: my-key47
     aws_region: eu-central-1
     ami_id: ami-0d527b8c289b4af7f
