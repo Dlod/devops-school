@@ -5,7 +5,6 @@
   gather_facts: false
   
   vars:
-
     key_name: my-key7
     aws_region: eu-central-1
     ami_id: ami-0d527b8c289b4af7f
