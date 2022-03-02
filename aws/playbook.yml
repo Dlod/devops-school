@@ -6,7 +6,7 @@
   
   vars:
 
-    key_name: my-key47
+    key_name: my-key7
     aws_region: eu-central-1
     ami_id: ami-0d527b8c289b4af7f
     pem_path: /Users/mikhailrozov/.ssh/my-key.pem
@@ -55,7 +55,7 @@
           volume_size: 35
           delete_on_termination: true
       exact_count: 2
-      name: demo24456
+      name: demo2
 
       state: running
     register: ec2
@@ -65,11 +65,6 @@
     add_host:
       name: "{{ ec2.results[0]['instances'][0]['public_ip_address'] }}"
       groups: dynamic_hosts
-      ansible_ssh_host: "{{ ec2.results[0]['instances'][0]['public_ip_address'] }}"
-      ansible_ssh_private_key_file: '{{ pem_path }}'
-      ansible_ssh_user: "ubuntu"
-      ec2_vars: "{{ ec2.results[0]['instances'][0] }}"
-      ec2_instance_ids: "{{ ec2.results[0]['instance_ids'] }}"
     with_indexed_items: ec2_instances
 
 - hosts: dynamic_hosts
