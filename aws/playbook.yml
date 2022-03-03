@@ -123,17 +123,7 @@
         name:
           - botocore
           - boto3
-
-    # - name: Create an empty bucket
-    #   amazon.aws.aws_s3:
-    #     aws_access_key: "{{aws_access_key}}"
-    #     aws_secret_key: "{{aws_secret_key}}"
-    #     region: "{{aws_region}}"
-    #     bucket: boxfuse
-    #     mode: create
-    #     aws_s3_bucket_default_policy: '{}'
-    #     permission: public-read
-
+          
     - name: Simple PUT operation
       amazon.aws.aws_s3:
         aws_access_key: "{{aws_access_key}}"
