@@ -90,8 +90,6 @@
     ansible_ssh_private_key_file: /Users/mikhailrozov/.ssh/my-key.pem
     ansible_ssh_user: "ubuntu"
     aws_region: eu-central-1
-    aws_access_key: AKIAYH3IOQEKLIS6MINJ
-    aws_secret_key: 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
   tasks:
     - name: apt update
       apt:
@@ -140,8 +138,6 @@
     ansible_ssh_private_key_file: /Users/mikhailrozov/.ssh/my-key.pem
     ansible_ssh_user: "ubuntu"
     aws_region: eu-central-1
-    aws_access_key: AKIAYH3IOQEKLIS6MINJ
-    aws_secret_key: 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
   tasks:
     - name: apt update
       apt:
