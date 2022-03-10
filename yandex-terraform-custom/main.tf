@@ -124,8 +124,8 @@ resource "yandex_compute_instance" "vm-2" {
       "aws --profile default configure set aws_access_key_id ${yandex_iam_service_account_static_access_key.sa-static-key.access_key}",
       "aws --profile default configure set aws_secret_access_key ${yandex_iam_service_account_static_access_key.sa-static-key.secret_key}",
       "aws configure set region ${local.region}",
-      "aws --endpoint-url=https://storage.yandexcloud.net/ s3 cp s3://${local.bucket_name}/hello-1.0.war /var/lib/tomcat9/webapps/",
-      "mv /var/lib/tomcat9/webapps/hello-1.0.war /var/lib/tomcat9/webapps/hello.war",
+      "aws --endpoint-url=https://storage.yandexcloud.net/ s3 cp s3://${local.bucket_name}/hello-1.0.war /tmp/",
+      "sudo mv /tmp/hello-1.0.war /var/lib/tomcat9/webapps/hello.war",
       "sudo systemctl restart tomcat9"
     ]
     connection {
